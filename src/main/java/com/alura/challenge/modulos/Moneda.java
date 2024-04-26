@@ -50,4 +50,11 @@ public class Moneda {
         this.registro = registro;
     }
 
+
+    @Override
+    public String toString() {
+        return """
+                [%s] %.2f [%s] ---> %.2f [%s]
+                """.formatted(registro, valor, monedaBase, valorConvertido, monedaConvertida);
+    }
 }
