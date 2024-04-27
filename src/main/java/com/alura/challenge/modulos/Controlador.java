@@ -7,10 +7,8 @@ import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -55,18 +53,20 @@ public class Controlador {
 
 
     public void registro() {
-        Clock clock = Clock.system(ZoneId.of("America/Bogota"));
-        Instant instant = clock.instant();
-        ZonedDateTime zonedDateTime = instant.atZone(clock.getZone());
-        String time = zonedDateTime.toString();
+        // Obtener la fecha y hora actual
+        LocalDateTime fechaHoraActual = LocalDateTime.now();
 
-        moneda.setRegistro(time);
+        // Formatear la fecha y hora actual
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fechaHoraFormateada = fechaHoraActual.format(formatter);
+
+        moneda.setRegistro(fechaHoraFormateada);
     }
 
     
     public String crearJson() throws IOException {
         if (historial.isEmpty())
-            return "Error, debes convertir alguna moneda.";
+            return "Debes convertir alguna moneda.";
 
 
         Gson gson = new GsonBuilder().
@@ -89,7 +89,7 @@ public class Controlador {
         moneda.setValorConvertido(valor);
 
         return """
-                \n%.2f [%s] es igual a %.5f [%s]
+                \n%.2f [%s] ---> %.5f [%s]
                 """.formatted(moneda.getValor(), moneda.getMonedaBase(), valor, moneda.getMonedaConvertida());
     }
 
@@ -97,5 +97,21 @@ public class Controlador {
     public void cerrarScanner() {
         sc.close();
     }
+
+
+    public String historial() {
+        if (historial.isEmpty())
+            return "\nNo hay conversiones de monedas.";
+
+        System.out.println("\n             HISTORIAL DE CONVERSIONES\n");
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Moneda moneda : historial)
+            stringBuilder.append(moneda.toString());
+
+        return stringBuilder.toString();
+    }
+
 
 }
