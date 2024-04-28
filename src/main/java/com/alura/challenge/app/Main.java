@@ -30,7 +30,7 @@ public class Main {
                     4) ARS - Peso argentino
                     5) Monedas soportadas
                     6) Nueva moneda
-                    7) Crear archivo Json con el historial de conversiones
+                    7) Historial en archivo Json
                     8) Salir
 
                     Numero:""");
@@ -66,19 +66,17 @@ public class Main {
 
                     case 6:
                         sc.nextLine();
-                        System.out.println("Digite el codigo de la moneda (MXN, EUR, GBP)");
+                        System.out.println("Código de moneda según el estándar ISO 4217");
                         System.out.print("Moneda base: ");
                         codigoMoneda = sc.nextLine();
 
                         System.out.print("---------------------------------------------------------------\n\n");
-                        if (StringUtils.isNumeric(codigoMoneda)) {
+                        if (StringUtils.isNumeric(codigoMoneda))
                             System.out.println("Error: se esperaba un código de moneda, pero se ha recibido un número.");
-                        } else if (controlador.tasaConversion(codigoMoneda).equals("¡Error!"))
+                        else if (controlador.tasaConversion(codigoMoneda).equals("¡Error!"))
                             System.out.println("El codigo de la moneda no esta soportada.");
-                        else {
-                            //System.out.print("---------------------------------------------------------------\n\n");
+                        else
                             menuConvertidor(codigoMoneda.toUpperCase());
-                        }
                         break;
 
                     case 7:
@@ -88,6 +86,8 @@ public class Main {
                     case 8:
                         controlador.cerrarScanner();
                         System.out.println("¡Programa finalizado, gracias por usar nuestro servicio!");
+                        System.out.print("\n---------------------------------------------------------------\n");
+                        System.out.println(controlador.historial());
                         break;
 
                     default:
@@ -138,7 +138,7 @@ public class Main {
                         float valor = sc.nextFloat();
                         sc.nextLine();
 
-                        System.out.println("\nDigite el codigo de la moneda (MXN, EUR, GBP)");
+                        System.out.println("\nCódigo de moneda según el estándar ISO 4217");
                         System.out.print("Moneda a convertir: ");
                         var monedaConvertidir = sc.nextLine();
 
@@ -148,11 +148,11 @@ public class Main {
                             System.out.println("\nError: se esperaba un código de moneda, pero se ha recibido un número.\n");
                         else
                             System.out.println(controlador.nuevaMoneda(codigoMoneda, valor, monedaConvertidir));
-
                         break;
                     case 4:
-                        System.out.println("¡Regresando!");
+                        System.out.println("¡Regresando al menu principal!");
                         break;
+
                     default:
                         System.out.println("¡Opcion icorrecta, intentelo de nuevo!\n");
 
