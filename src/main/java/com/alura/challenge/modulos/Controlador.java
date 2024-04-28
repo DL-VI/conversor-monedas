@@ -101,7 +101,7 @@ public class Controlador {
 
     public String historial() {
         if (historial.isEmpty())
-            return "\nNo hay conversiones de monedas.";
+            return "\nNo hay historial de monedas.";
 
         System.out.println("\n             HISTORIAL DE CONVERSIONES\n");
 
